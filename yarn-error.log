@@ -1,0 +1,42 @@
+Arguments: 
+  /Users/jpeterson/.nvm/versions/node/v8.10.0/bin/node /usr/local/Cellar/yarn/1.5.1_1/libexec/bin/yarn.js add express
+
+PATH: 
+  /Users/jpeterson/.nvm/versions/node/v8.10.0/bin:/Users/jpeterson/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin
+
+Yarn version: 
+  1.5.1
+
+Node version: 
+  8.10.0
+
+Platform: 
+  darwin x64
+
+npm manifest: 
+  {
+    "name": "fcc-backend-dev-image-search-abstraction-layer",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "https://github.com/jpetersun/fcc-backend-dev-image-search-abstraction-layer.git",
+    "author": "James Peterson <jpeterson@einsteinmedical.com>",
+    "license": "MIT",
+    "scripts": {
+      "start: node index.js"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  SyntaxError: /Users/jpeterson/exercises/fcc-backend-dev-image-search-abstraction-layer/package.json: Unexpected token } in JSON at position 331
+      at JSON.parse (<anonymous>)
+      at /usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:1036:59
+      at Generator.next (<anonymous>)
+      at step (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:98:30)
+      at /usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:109:13
+      at <anonymous>
