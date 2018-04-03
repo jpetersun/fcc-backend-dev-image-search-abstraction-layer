@@ -1,9 +1,21 @@
+require('dotenv').config()
 const express = require('express')
+const axios = require('axios')
 
 const app = express()
 const PORT = process.env.PORT || 8000
+const KEY = process.env.KEY || 123
 
 app.get('/api/imagesearch/:searchTerm', (req, res) => {
+  const offSet = req.query.offset
+  const searchTerm = encodeURI(req.params.searchTerm)
+
+  let imageReqUrl = `https://pixabay.com/api/?key=${ KEY }&q=${ searchTerm }&image_type=photo`
+
+  if (searchTerm) {
+    imageReqUrl += `&per_page=${ offSet }`
+  }
+
   let url = null
   let snippet = null
   let thumbnail = null
@@ -17,8 +29,9 @@ app.get('/api/imagesearch/:searchTerm', (req, res) => {
   }
 
   res.send({
-    offset: req.query.offset,
-    searchTerm: req.params.searchTerm
+    offSet,
+    searchTerm,
+    imageReqUrl
   })
 })
 
