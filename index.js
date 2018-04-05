@@ -1,27 +1,66 @@
 require('dotenv').config()
 const express = require('express')
 const axios = require('axios')
+const mongodb = require('mongodb')
+const mongoose = require('mongoose')
 
 const app = express()
 const PORT = process.env.PORT || 8000
-const KEY = process.env.KEY || 123
+const KEY = process.env.KEY
 
+// MongoDB env vars
+const USER = process.env.USER
+const PASS = process.env.PASS
+const HOST = process.env.HOST
+const DB_PORT = process.env.DB_PORT
+const DB = process.env.DB
+
+const uri = `mongodb://${USER}:${PASS}@${HOST}:${DB_PORT}/${DB}`
+mongoose.connect(uri)
+const db = mongoose.connection
+
+db.on('error', console.error.bind(console, 'connection error:'))
+db.once('open', () => {
+  console.log('we are connected to mlab DB!')
+})
+
+const termSchema = mongoose.Schema({
+  term: String,
+  when: String
+})
+
+const Term = mongoose.model('Term', termSchema)
+
+// Save every search term
+function saveSearchTerm (searchTerm) {
+  const term = new Term({
+    term: searchTerm,
+    when: new Date().toISOString()
+  })
+
+  term.save(err => {
+    if (err) return console.error(err)
+  })
+}
+
+// Search for images using the pixabay api
 app.get('/api/imagesearch/:searchTerm', (req, res) => {
   const offSet = req.query.offset
-  const searchTerm = encodeURI(req.params.searchTerm)
+  const searchTerm = req.params.searchTerm
 
-  let imageReqUrl = `https://pixabay.com/api/?key=${ KEY }&q=${ searchTerm }&image_type=photo`
+  saveSearchTerm(searchTerm)
+
+  const encodeSearchTerm = encodeURI(searchTerm)
+  let imageReqUrl = `https://pixabay.com/api/?key=${ KEY }&q=${ encodeSearchTerm }&image_type=photo`
 
   if (offSet) {
     imageReqUrl += `&per_page=${ offSet }`
   }
 
-  let data = null
-  let images = null
   axios.get(imageReqUrl)
     .then(response => {
-      data = response.data
-      images = data.hits.map(image => {
+      const data = response.data
+      const images = data.hits.map(image => {
         const { imageURL, tags, previewURL, pageURL } = image
         return {
           imageURL,
@@ -39,10 +78,21 @@ app.get('/api/imagesearch/:searchTerm', (req, res) => {
     })
 })
 
+// Recent 10 searches
 app.get('/api/imagesearch/', (req, res) => {
+  const query = Term.find().sort({'when': 'desc'}).limit(10)
+  query.exec((err, terms) => {
+    if (err) return console.error(err)
 
-  res.json({
+    const recentTerms = terms.map(recentTerm => {
+      const { term, when } = recentTerm
+      return {
+        term,
+        when
+      }
+    })
 
+    res.json(recentTerms)
   })
 })
 
