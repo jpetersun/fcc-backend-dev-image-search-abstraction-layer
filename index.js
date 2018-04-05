@@ -12,26 +12,37 @@ app.get('/api/imagesearch/:searchTerm', (req, res) => {
 
   let imageReqUrl = `https://pixabay.com/api/?key=${ KEY }&q=${ searchTerm }&image_type=photo`
 
-  if (searchTerm) {
+  if (offSet) {
     imageReqUrl += `&per_page=${ offSet }`
   }
 
-  let url = null
-  let snippet = null
-  let thumbnail = null
-  let context = null
+  let data = null
+  let images = null
+  axios.get(imageReqUrl)
+    .then(response => {
+      data = response.data
+      images = data.hits.map(image => {
+        const { imageURL, tags, previewURL, pageURL } = image
+        return {
+          imageURL,
+          tags,
+          previewURL,
+          pageURL
+        }
+      })
 
-  const searchResult = {
-    url,
-    snippet,
-    thumbnail,
-    context
-  }
+      res.json(images)
+    })
+    .catch(error => {
+      console.log(error)
+      return
+    })
+})
 
-  res.send({
-    offSet,
-    searchTerm,
-    imageReqUrl
+app.get('/api/imagesearch/', (req, res) => {
+
+  res.json({
+
   })
 })
 
