@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/jpetersun/fcc-backend-dev-image-search-abstraction-layer.git",
-  "author": "James Peterson <jpeterson@einsteinmedical.com>",
+  "author": "James Peterson <jpeterson903@yahoo.com>",
   "license": "MIT",
   "scripts": {
     "start": "node index.js"
