@@ -5,6 +5,7 @@
 https://funny-dawn.glitch.me/api/imagesearch/
 
 ## Example Output:
+
 ```
 [
   {

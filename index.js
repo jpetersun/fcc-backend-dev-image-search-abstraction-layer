@@ -43,6 +43,17 @@ function saveSearchTerm (searchTerm) {
   })
 }
 
+const fs = require('fs')
+const _template = require('lodash.template')
+const body = fs.readFileSync('index-md.html', 'utf8')
+const baseTemplate = fs.readFileSync('./index.html')
+const template = _template(baseTemplate)
+
+app.get('/', (req, res) => {
+  res.write(template({ body }))
+  res.end()
+})
+
 // Search for images using the pixabay api
 app.get('/api/imagesearch/:searchTerm', (req, res) => {
   const offSet = req.query.offset
