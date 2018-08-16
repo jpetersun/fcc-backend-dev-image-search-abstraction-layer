@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const uri = 'mongodb://localhost:27017/fcc-image-search'
+const uri = 'mongodb://localhost:27017/test-fcc-image-search'
 const saveSearchTerm = require('../index').saveSearchTerm
 mongoose.Promise = global.Promise
 
@@ -25,8 +25,7 @@ function dropDb () {
    .then(() => Promise.all(mongoose.modelNames().map(removeModel)))
 }
 
-function seedDb () {
-  const terms = ['computers', 'music', 'stars']
+function seedDb (terms) {
   return mongoose.connect(uri)
     .then(() => Promise.all(terms.map(term => {
       return saveSearchTerm(term)

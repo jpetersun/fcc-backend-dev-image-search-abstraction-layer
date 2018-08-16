@@ -30,9 +30,6 @@ mongoose.connect(uri)
 const db = mongoose.connection
 
 db.on('error', console.error.bind(console, 'connection error:'))
-db.once('open', () => {
-  console.log('we are connected to the DB!')
-})
 
 const SearchTerm = require('./searchTerm.model')
 
@@ -119,7 +116,7 @@ app.use((err, req, res, next) => {
   return res.status(err.output.statusCode).json(err.output.payload)
 })
 
-app.listen(PORT, () => console.log(`Listening on port: ${PORT}`))
+app.listen(PORT, () => console.log(`Listening on port: ${PORT}\n`))
 
 module.exports = {
   app,
