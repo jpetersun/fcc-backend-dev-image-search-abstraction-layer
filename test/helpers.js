@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const uri = 'mongodb://localhost:27017/test-fcc-image-search'
-const saveSearchTerm = require('../index').saveSearchTerm
+const { saveSearchTerm } = require('../index')
 mongoose.Promise = global.Promise
 
 function removeModel (modelName) {

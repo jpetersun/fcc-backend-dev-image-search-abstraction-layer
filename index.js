@@ -32,12 +32,12 @@ const db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error:'))
 
 const SearchTerm = require('./searchTerm.model')
-
 // Save every search term
 function saveSearchTerm (searchTerm) {
   return SearchTerm.create({searchTerm})
 }
 
+// create template
 const fs = require('fs')
 const _template = require('lodash.template')
 const body = fs.readFileSync('index-md.html', 'utf8')
@@ -56,7 +56,7 @@ app.get('/api/imagesearch/:searchTerm', (req, res, next) => {
 
   saveSearchTerm(searchTerm)
     .catch(err => {
-      return next(boom.badRequest(err))
+      console.error(err)
     })
 
   const encodedSearchTerm = encodeURI(searchTerm)

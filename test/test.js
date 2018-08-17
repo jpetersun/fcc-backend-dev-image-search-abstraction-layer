@@ -47,4 +47,48 @@ describe('Image Search API', () => {
         })
     })
   })
+
+  describe('GET /api/imagesearch/:searchTerm', () => {
+    it('should respond with search results', async () => {
+      await request(app)
+        .get('/api/imagesearch/galaxy')
+        .then(res => {
+          res.type.should.equal('application/json')
+          res.body.should.have.lengthOf(20)
+          res.body[0].should.have.property('imageURL')
+          res.body[0].should.have.property('tags')
+          res.body[0].should.have.property('previewURL')
+          res.body[0].should.have.property('pageURL')
+        })
+        .catch(err => {
+          throw new Error(err)
+        })
+    })
+
+    it('should respond with no search results', async () => {
+      await request(app)
+        .get('/api/imagesearch/_%20_')
+        .then(res => {
+          res.type.should.equal('application/json')
+          res.body.should.have.lengthOf(0)
+        })
+        .catch(err => {
+          throw new Error(err)
+        })
+    })
+  })
+
+  describe('GET /api/imagesearch/:searchTerm?offset=Number', () => {
+    it('should respond with offset search results', async () => {
+      await request(app)
+        .get('/api/imagesearch/sun?offset=5')
+        .then(res => {
+          res.type.should.equal('application/json')
+          res.body.should.have.lengthOf(5)
+        })
+        .catch(err => {
+          throw new Error(err)
+        })
+    })
+  })
 })
