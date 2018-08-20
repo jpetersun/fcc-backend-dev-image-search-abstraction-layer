@@ -1,35 +1,6 @@
 require('dotenv').config()
-const express = require('express')
 const axios = require('axios')
-const mongoose = require('mongoose')
 const boom = require('boom')
-
-const app = express()
-
-app.use(express.static('public'))
-
-const PORT = process.env.PORT || 8000
-const KEY = process.env.KEY
-
-// MongoDB env vars
-const USER = process.env.USER
-const PASS = process.env.PASS
-const HOST = process.env.HOST
-const DB_PORT = process.env.DB_PORT
-const DB = process.env.DB
-
-let uri = null
-
-if (process.env.NODE_ENV === 'development') {
-  uri = 'mongodb://localhost:27017/fcc-image-search'
-} else {
-  uri = `mongodb://${USER}:${PASS}@${HOST}:${DB_PORT}/${DB}`
-}
-
-mongoose.connect(uri)
-const db = mongoose.connection
-
-db.on('error', console.error.bind(console, 'connection error:'))
 
 const SearchTerm = require('./searchTerm.model')
 // Save every search term
@@ -37,12 +8,9 @@ function saveSearchTerm (searchTerm) {
   return SearchTerm.create({searchTerm})
 }
 
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html')
-})
-
 // Search for images using the pixabay api
-app.get('/api/imagesearch/:searchTerm', (req, res, next) => {
+// function getSearchTerm (req, res, next) {
+exports.getSearchTerm = function (req, res, next) {
   const offSet = req.query.offset
   const searchTerm = req.params.searchTerm
 
@@ -51,6 +19,7 @@ app.get('/api/imagesearch/:searchTerm', (req, res, next) => {
       console.error(err)
     })
 
+  const KEY = process.env.KEY
   const encodedSearchTerm = encodeURI(searchTerm)
   let imageReqUrl = `https://pixabay.com/api/?key=${ KEY }&q=${ encodedSearchTerm }&image_type=photo`
 
@@ -76,10 +45,14 @@ app.get('/api/imagesearch/:searchTerm', (req, res, next) => {
     .catch(err => {
       return next(boom.badRequest(err))
     })
-})
+}
+// app.get('/api/imagesearch/:searchTerm', (req, res, next) => {
+
+// })
 
 // Recent 10 search terms
-app.get('/api/imagesearch/', (req, res, next) => {
+// function getRecentTerms (req, res, next) {
+exports.getRecentTerms = function (req, res, next) {
   const query = SearchTerm.find().sort({'createdAt': 'desc'}).limit(10)
   query.exec((err, terms) => {
     if (err) {
@@ -97,21 +70,8 @@ app.get('/api/imagesearch/', (req, res, next) => {
 
     res.json(recentTerms)
   })
-})
-
-// error handler middleware using boom
-app.use((err, req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    console.log(err)
-  }
-
-  return res.status(err.output.statusCode).json(err.output.payload)
-})
-
-app.listen(PORT, () => console.log(`Listening on port: ${PORT}\n`))
-
-module.exports = {
-  app,
-  saveSearchTerm,
-  SearchTerm,
 }
+
+// app.get('/api/imagesearch/', (req, res, next) => {
+
+// })

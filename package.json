@@ -6,7 +6,7 @@
   "author": "James Peterson <jpeterson903@yahoo.com>",
   "license": "MIT",
   "scripts": {
-    "start": "NODE_ENV=development node index.js",
+    "start": "NODE_ENV=development node src/index.js",
     "test": "PORT=4000 NODE_ENV=testing mocha test/test.js"
   },
   "dependencies": {
@@ -14,9 +14,8 @@
     "boom": "^7.2.0",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
+    "lodash.merge": "^4.6.1",
     "lodash.template": "^4.4.0",
-    "markdown": "^0.5.0",
-    "md2html": "^0.0.1",
     "mongoose": "^5.0.13"
   },
   "devDependencies": {

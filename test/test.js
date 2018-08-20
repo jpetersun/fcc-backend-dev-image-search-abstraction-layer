@@ -1,6 +1,6 @@
 const chai = require('chai')
 const should = chai.should()
-const app = require('../index').app
+const app = require('../src/server')
 const request = require('supertest')
 
 const { dropDb, seedDb } = require('./helpers')
