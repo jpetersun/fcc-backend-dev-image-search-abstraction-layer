@@ -1,40 +1,37 @@
-# fcc-backend-dev-image-search-abstraction-layer
+# FCC Image Search Abstraction Layer Microservice
 
-## Example Usage: 10 Recent Searches
+Get image URLs, image tags and page urls for a set of images relating to a given search string.
+Images are retrieved using the Pixabay API.
+Paginate through the responses by adding a ?offset=2 parameter to the URL.
+Get a list of the most recently submitted search strings.
 
-https://funny-dawn.glitch.me/api/imagesearch/
+### Prerequisites
 
-## Example Output:
+Node.js 8.10+
+
+### Installing
+
+Requires a Pixabay API Key set as an environment variable.
+MongoDB databases called `fcc-image-search` and `test-fcc-image-search`.
 
 ```
-[
-  {
-    term: "music",
-    when: "2018-04-05T19:24:10.051Z"
-  },
-  {
-    term: "chopper",
-    when: "2018-04-05T19:24:01.564Z"
-  },
-  {
-    term: "life",
-    when: "2018-04-05T19:23:54.789Z"
-  },
-  {
-    term: "cows",
-    when: "2018-04-05T19:23:46.036Z"
-  },
-  {
-    term: "computers",
-    when: "2018-04-05T19:22:56.578Z"
-  },
-...
-]
+yarn install
+
+npm start
 ```
+
+### Testing
+
+`yarn test`
+
+Local Demo: `localhost:8000`
+
+Live Demo: https://fcc-image-search-abstraction-layer-microservice-jp.glitch.me/
+
 
 ## Example Usage: Search for Images
 
-https://funny-dawn.glitch.me/api/imagesearch/spiral
+https://fcc-image-search-abstraction-layer-microservice-jp.glitch.me/api/imagesearch/spiral
 
 ## Example Output:
 ```
@@ -63,4 +60,36 @@ https://funny-dawn.glitch.me/api/imagesearch/spiral
 
 ## Example Usage: Search for Images with offset
 
-https://funny-dawn.glitch.me/api/imagesearch/spiral?offset=25
+https://fcc-image-search-abstraction-layer-microservice-jp.glitch.me/api/imagesearch/spiral?offset=25
+
+## Example Usage: 10 Recent Searches
+
+https://fcc-image-search-abstraction-layer-microservice-jp.glitch.me/api/imagesearch/
+
+## Example Output:
+
+```
+[
+  {
+    term: "music",
+    when: "2018-04-05T19:24:10.051Z"
+  },
+  {
+    term: "chopper",
+    when: "2018-04-05T19:24:01.564Z"
+  },
+  {
+    term: "life",
+    when: "2018-04-05T19:23:54.789Z"
+  },
+  {
+    term: "cows",
+    when: "2018-04-05T19:23:46.036Z"
+  },
+  {
+    term: "computers",
+    when: "2018-04-05T19:22:56.578Z"
+  },
+...
+]
+```

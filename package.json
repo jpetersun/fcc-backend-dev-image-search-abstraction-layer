@@ -6,7 +6,7 @@
   "author": "James Peterson <jpeterson903@yahoo.com>",
   "license": "MIT",
   "scripts": {
-    "start": "node index.js",
+    "start": "NODE_ENV=development node index.js",
     "test": "PORT=4000 NODE_ENV=testing mocha test/test.js"
   },
   "dependencies": {
