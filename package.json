@@ -6,8 +6,9 @@
   "author": "James Peterson <jpeterson903@yahoo.com>",
   "license": "MIT",
   "scripts": {
-    "start": "NODE_ENV=development node src/index.js",
-    "test": "PORT=4000 NODE_ENV=testing mocha test/test.js"
+    "start": "NODE_ENV=production node src/index.js",
+    "start:dev": "NODE_ENV=development node src/index.js",
+    "test": "NODE_ENV=testing mocha test/test.js"
   },
   "dependencies": {
     "axios": "^0.18.0",

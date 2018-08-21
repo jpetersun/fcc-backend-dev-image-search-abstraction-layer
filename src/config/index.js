@@ -1,28 +1,26 @@
+require('dotenv').config()
 const merge = require('lodash.merge')
 
-const NODE_ENV = process.env.NODE_ENV
-
 const baseConfig = {
-  port: 8000,
-  db: {
-    url: 'mongodb://localhost:27017/fcc-image-search'
-  }
+  port: 8000
 }
 
 let envConfig = {}
 
+const NODE_ENV = process.env.NODE_ENV
 switch (NODE_ENV) {
   case 'development':
   case 'dev':
     envConfig = require('./dev')
-    break;
+    break
   case 'test':
   case 'testing':
     envConfig = require('./testing')
-    break;
+    break
   case 'prod':
   case 'production':
     envConfig = require('./prod')
+    break
   default:
     envConfig = require('./dev')
 }

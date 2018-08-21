@@ -1,5 +1,4 @@
 const express = require('express')
-const boom = require('boom')
 const restRouter = require('./api')
 const connect = require('./db')
 const app = express()

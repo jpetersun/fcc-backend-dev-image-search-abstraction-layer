@@ -1,4 +1,3 @@
-require('dotenv').config()
 const axios = require('axios')
 const boom = require('boom')
 
@@ -9,7 +8,6 @@ function saveSearchTerm (searchTerm) {
 }
 
 // Search for images using the pixabay api
-// function getSearchTerm (req, res, next) {
 exports.getSearchTerm = function (req, res, next) {
   const offSet = req.query.offset
   const searchTerm = req.params.searchTerm
@@ -46,12 +44,8 @@ exports.getSearchTerm = function (req, res, next) {
       return next(boom.badRequest(err))
     })
 }
-// app.get('/api/imagesearch/:searchTerm', (req, res, next) => {
-
-// })
 
 // Recent 10 search terms
-// function getRecentTerms (req, res, next) {
 exports.getRecentTerms = function (req, res, next) {
   const query = SearchTerm.find().sort({'createdAt': 'desc'}).limit(10)
   query.exec((err, terms) => {
@@ -71,7 +65,3 @@ exports.getRecentTerms = function (req, res, next) {
     res.json(recentTerms)
   })
 }
-
-// app.get('/api/imagesearch/', (req, res, next) => {
-
-// })

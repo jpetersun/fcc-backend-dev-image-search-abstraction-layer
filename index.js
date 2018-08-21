@@ -1,117 +1,117 @@
-require('dotenv').config()
-const express = require('express')
-const axios = require('axios')
-const mongoose = require('mongoose')
-const boom = require('boom')
+// require('dotenv').config()
+// const express = require('express')
+// const axios = require('axios')
+// const mongoose = require('mongoose')
+// const boom = require('boom')
 
-const app = express()
+// const app = express()
 
-app.use(express.static('public'))
+// app.use(express.static('public'))
 
-const PORT = process.env.PORT || 8000
-const KEY = process.env.KEY
+// const PORT = process.env.PORT || 8000
+// const KEY = process.env.KEY
 
-// MongoDB env vars
-const USER = process.env.USER
-const PASS = process.env.PASS
-const HOST = process.env.HOST
-const DB_PORT = process.env.DB_PORT
-const DB = process.env.DB
+// // MongoDB env vars
+// const USER = process.env.USER
+// const PASS = process.env.PASS
+// const HOST = process.env.HOST
+// const DB_PORT = process.env.DB_PORT
+// const DB = process.env.DB
 
-let uri = null
+// let uri = null
 
-if (process.env.NODE_ENV === 'development') {
-  uri = 'mongodb://localhost:27017/fcc-image-search'
-} else {
-  uri = `mongodb://${USER}:${PASS}@${HOST}:${DB_PORT}/${DB}`
-}
+// if (process.env.NODE_ENV === 'development') {
+//   uri = 'mongodb://localhost:27017/fcc-image-search'
+// } else {
+//   uri = `mongodb://${USER}:${PASS}@${HOST}:${DB_PORT}/${DB}`
+// }
 
-mongoose.connect(uri)
-const db = mongoose.connection
+// mongoose.connect(uri)
+// const db = mongoose.connection
 
-db.on('error', console.error.bind(console, 'connection error:'))
+// db.on('error', console.error.bind(console, 'connection error:'))
 
-const SearchTerm = require('./searchTerm.model')
-// Save every search term
-function saveSearchTerm (searchTerm) {
-  return SearchTerm.create({searchTerm})
-}
+// const SearchTerm = require('./searchTerm.model')
+// // Save every search term
+// function saveSearchTerm (searchTerm) {
+//   return SearchTerm.create({searchTerm})
+// }
 
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html')
-})
+// app.get('/', (req, res) => {
+//   res.sendFile(__dirname + '/index.html')
+// })
 
-// Search for images using the pixabay api
-app.get('/api/imagesearch/:searchTerm', (req, res, next) => {
-  const offSet = req.query.offset
-  const searchTerm = req.params.searchTerm
+// // Search for images using the pixabay api
+// app.get('/api/imagesearch/:searchTerm', (req, res, next) => {
+//   const offSet = req.query.offset
+//   const searchTerm = req.params.searchTerm
 
-  saveSearchTerm(searchTerm)
-    .catch(err => {
-      console.error(err)
-    })
+//   saveSearchTerm(searchTerm)
+//     .catch(err => {
+//       console.error(err)
+//     })
 
-  const encodedSearchTerm = encodeURI(searchTerm)
-  let imageReqUrl = `https://pixabay.com/api/?key=${ KEY }&q=${ encodedSearchTerm }&image_type=photo`
+//   const encodedSearchTerm = encodeURI(searchTerm)
+//   let imageReqUrl = `https://pixabay.com/api/?key=${ KEY }&q=${ encodedSearchTerm }&image_type=photo`
 
-  if (offSet) {
-    imageReqUrl += `&per_page=${ offSet }`
-  }
+//   if (offSet) {
+//     imageReqUrl += `&per_page=${ offSet }`
+//   }
 
-  axios.get(imageReqUrl)
-    .then(response => {
-      const data = response.data
-      const images = data.hits.map(image => {
-        const { imageURL, tags, previewURL, pageURL } = image
-        return {
-          imageURL,
-          tags,
-          previewURL,
-          pageURL
-        }
-      })
+//   axios.get(imageReqUrl)
+//     .then(response => {
+//       const data = response.data
+//       const images = data.hits.map(image => {
+//         const { imageURL, tags, previewURL, pageURL } = image
+//         return {
+//           imageURL,
+//           tags,
+//           previewURL,
+//           pageURL
+//         }
+//       })
 
-      res.json(images)
-    })
-    .catch(err => {
-      return next(boom.badRequest(err))
-    })
-})
+//       res.json(images)
+//     })
+//     .catch(err => {
+//       return next(boom.badRequest(err))
+//     })
+// })
 
-// Recent 10 search terms
-app.get('/api/imagesearch/', (req, res, next) => {
-  const query = SearchTerm.find().sort({'createdAt': 'desc'}).limit(10)
-  query.exec((err, terms) => {
-    if (err) {
-      return next(boom.badRequest(err))
-    }
+// // Recent 10 search terms
+// app.get('/api/imagesearch/', (req, res, next) => {
+//   const query = SearchTerm.find().sort({'createdAt': 'desc'}).limit(10)
+//   query.exec((err, terms) => {
+//     if (err) {
+//       return next(boom.badRequest(err))
+//     }
 
-    const recentTerms = terms.map(recentTerm => {
-      const { searchTerm, createdAt } = recentTerm
-      const when = createdAt
-      return {
-        searchTerm,
-        when
-      }
-    })
+//     const recentTerms = terms.map(recentTerm => {
+//       const { searchTerm, createdAt } = recentTerm
+//       const when = createdAt
+//       return {
+//         searchTerm,
+//         when
+//       }
+//     })
 
-    res.json(recentTerms)
-  })
-})
+//     res.json(recentTerms)
+//   })
+// })
 
-// error handler middleware using boom
-app.use((err, req, res, next) => {
-  if (process.env.NODE_ENV === 'development') {
-    console.log(err)
-  }
+// // error handler middleware using boom
+// app.use((err, req, res, next) => {
+//   if (process.env.NODE_ENV === 'development') {
+//     console.log(err)
+//   }
 
-  return res.status(err.output.statusCode).json(err.output.payload)
-})
+//   return res.status(err.output.statusCode).json(err.output.payload)
+// })
 
-app.listen(PORT, () => console.log(`Listening on port: ${PORT}\n`))
+// app.listen(PORT, () => console.log(`Listening on port: ${PORT}\n`))
 
-module.exports = {
-  app,
-  saveSearchTerm,
-  SearchTerm,
-}
+// module.exports = {
+//   app,
+//   saveSearchTerm,
+//   SearchTerm,
+// }
