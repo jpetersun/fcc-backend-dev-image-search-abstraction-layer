@@ -1,5 +1,8 @@
-require('dotenv').config()
-const merge = require('lodash.merge')
+import dotenv from 'dotenv'
+// load env vars
+dotenv.config()
+
+import merge from 'lodash.merge'
 
 const baseConfig = {
   port: 8000
@@ -11,18 +14,18 @@ const NODE_ENV = process.env.NODE_ENV
 switch (NODE_ENV) {
   case 'development':
   case 'dev':
-    envConfig = require('./dev')
+    envConfig = require('./dev').config
     break
   case 'test':
   case 'testing':
-    envConfig = require('./testing')
+    envConfig = require('./testing').config
     break
   case 'prod':
   case 'production':
-    envConfig = require('./prod')
+    envConfig = require('./prod').config
     break
   default:
-    envConfig = require('./dev')
+    envConfig = require('./dev').config
 }
 
-module.exports = merge(baseConfig, envConfig)
+export default merge(baseConfig, envConfig)

@@ -1,2 +1,3 @@
-const searchTermRouter = require('./searchTerm.routes')
-module.exports = searchTermRouter
+import searchTermRouter from './searchTerm.routes'
+
+export default searchTermRouter

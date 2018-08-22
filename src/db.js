@@ -1,9 +1,9 @@
-const mongoose = require('mongoose')
-const appConfig = require('./config')
+import mongoose from 'mongoose'
+import config from './config'
 mongoose.Promise = global.Promise
 
 function connect () {
-  return mongoose.connect(appConfig.db.url)
+  return mongoose.connect(config.db.url)
 }
 
-module.exports = connect
+export default connect

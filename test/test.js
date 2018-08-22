@@ -1,10 +1,10 @@
 require('babel-polyfill')
-const chai = require('chai')
+import chai from 'chai'
 const should = chai.should()
 import app from '../src/server'
-const request = require('supertest')
+import request from 'supertest'
 
-const { dropDb, seedDb } = require('./helpers')
+import { dropDb, seedDb } from './helpers'
 
 describe('Image Search API', () => {
   const terms = ['computers', 'music', 'stars']

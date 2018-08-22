@@ -1,7 +1,8 @@
-const controller = require('./searchTerm.controller')
-const router = require('express').Router()
+import controller from './searchTerm.controller'
+import { Router } from 'express'
+const router = Router()
 
 router.get('/:searchTerm', controller.getSearchTerm)
 router.get('/', controller.getRecentTerms)
 
-module.exports = router
+export default router

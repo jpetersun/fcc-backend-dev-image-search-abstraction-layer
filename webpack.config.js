@@ -1,10 +1,14 @@
 const webpack = require('webpack')
 const path = require('path')
+const nodeExternals = require('webpack-node-externals')
 
 module.exports = {
   entry: ['./src/index'],
   devtool: 'sourcemap',
   target: 'node',
+  externals: [
+    nodeExternals()
+  ],
   module: {
     rules: [
       {

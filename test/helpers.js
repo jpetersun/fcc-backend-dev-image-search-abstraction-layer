@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
-const config = require('../src/config')
-const SearchTerm = require('../src/api/searchTerm/searchTerm.model')
+import mongoose from 'mongoose'
+import config from '../src/config'
+import SearchTerm from '../src/api/searchTerm/searchTerm.model'
 mongoose.Promise = global.Promise
 
 function saveSearchTerm (searchTerm) {
@@ -36,7 +36,4 @@ function seedDb (terms) {
     })))
 }
 
-module.exports = {
-  dropDb,
-  seedDb
-}
+export { dropDb, seedDb }

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const searchTermSchema = new mongoose.Schema({
   searchTerm: {
@@ -9,4 +9,4 @@ const searchTermSchema = new mongoose.Schema({
 
 const SearchTerm = mongoose.model('SearchTerm', searchTermSchema)
 
-module.exports = SearchTerm
+export default SearchTerm

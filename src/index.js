@@ -1,5 +1,5 @@
-// const app = require('./server')
 import app from './server'
-const { port } = require('./config')
+import config from './config'
+const { port } = config
 
 app.listen(port, () => console.log(`Listening on port: ${port}\n`))

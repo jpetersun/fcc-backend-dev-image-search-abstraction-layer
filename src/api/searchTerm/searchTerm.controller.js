@@ -1,14 +1,14 @@
-const axios = require('axios')
-const boom = require('boom')
+import axios from 'axios'
+import boom from 'boom'
 
-const SearchTerm = require('./searchTerm.model')
+import SearchTerm from './searchTerm.model'
 // Save every search term
 function saveSearchTerm (searchTerm) {
   return SearchTerm.create({searchTerm})
 }
 
 // Search for images using the pixabay api
-exports.getSearchTerm = function (req, res, next) {
+function getSearchTerm (req, res, next) {
   const offSet = req.query.offset
   const searchTerm = req.params.searchTerm
 
@@ -46,7 +46,7 @@ exports.getSearchTerm = function (req, res, next) {
 }
 
 // Recent 10 search terms
-exports.getRecentTerms = function (req, res, next) {
+function getRecentTerms (req, res, next) {
   const query = SearchTerm.find().sort({'createdAt': 'desc'}).limit(10)
   query.exec((err, terms) => {
     if (err) {
@@ -65,3 +65,10 @@ exports.getRecentTerms = function (req, res, next) {
     res.json(recentTerms)
   })
 }
+
+const controller = {
+  getSearchTerm,
+  getRecentTerms
+}
+
+export default controller

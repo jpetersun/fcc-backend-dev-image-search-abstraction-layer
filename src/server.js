@@ -1,8 +1,10 @@
-const express = require('express')
-const restRouter = require('./api')
-const connect = require('./db')
+import express from 'express'
+import restRouter from './api'
+import connect from './db'
+
 const app = express()
 connect()
+
 app.use('/api', restRouter)
 app.use(express.static('public'))
 

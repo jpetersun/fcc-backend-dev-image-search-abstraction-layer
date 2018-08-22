@@ -7,4 +7,4 @@ function apiErrorHandler (err, req, res, next) {
   return res.status(err.output.statusCode).json(err.output.payload)
 }
 
-module.exports = apiErrorHandler
+export default apiErrorHandler

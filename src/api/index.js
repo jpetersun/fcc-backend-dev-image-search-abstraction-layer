@@ -1,10 +1,10 @@
-const express = require('express')
-const searchTermRouter = require('./searchTerm')
-const apiErrorHandler = require('./modules/errorHandler')
+import { Router } from 'express'
+import searchTermRouter from './searchTerm'
+import apiErrorHandler from './modules/errorHandler'
 
-const restRouter = express.Router()
+const restRouter = Router()
 
 restRouter.use('/imagesearch', searchTermRouter)
 restRouter.use(apiErrorHandler)
 
-module.exports = restRouter
+export default restRouter
