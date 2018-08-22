@@ -1,6 +1,7 @@
+require('babel-polyfill')
 const chai = require('chai')
 const should = chai.should()
-const app = require('../src/server')
+import app from '../src/server'
 const request = require('supertest')
 
 const { dropDb, seedDb } = require('./helpers')
