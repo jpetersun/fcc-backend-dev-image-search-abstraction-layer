@@ -1,8 +1,8 @@
-require('babel-polyfill')
-import chai from 'chai'
-const should = chai.should()
+import 'babel-polyfill'
 import app from '../src/server'
 import request from 'supertest'
+import chai from 'chai'
+const should = chai.should()
 
 import { dropDb, seedDb } from './helpers'
 
