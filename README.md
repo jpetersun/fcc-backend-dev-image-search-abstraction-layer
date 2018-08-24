@@ -1,6 +1,6 @@
 # FCC Image Search Abstraction Layer Microservice
 
-Get image URLs, image tags and page urls for a set of images relating to a given search string.
+Get image URLs, image tags and page URLs for a set of images relating to a given search string.
 Images are retrieved using the Pixabay API.
 Paginate through the responses by adding a ?offset=2 parameter to the URL.
 Get a list of the most recently submitted search strings.
