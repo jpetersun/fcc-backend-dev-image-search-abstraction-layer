@@ -1,5 +1,6 @@
 import axios from 'axios'
 import boom from 'boom'
+import { sanitize } from 'express-mongo-sanitize'
 
 import SearchTerm from './searchTerm.model'
 // Save every search term
@@ -10,7 +11,7 @@ function saveSearchTerm (searchTerm) {
 // Search for images using the pixabay api
 function getSearchTerm (req, res, next) {
   const offSet = req.query.offset
-  const searchTerm = req.params.searchTerm
+  const searchTerm = sanitize(req.params.searchTerm)
 
   saveSearchTerm(searchTerm)
     .catch(err => {
